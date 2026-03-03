@@ -1,14 +1,45 @@
-Các bước cài đặt: (chế độ development)
-1. clone code
-2. cài đặt thư viện: npm i
-3. Update file .env.development (nếu cần thiết)
-4. Chạy dự án: npm run dev
+# 📚 Project Book - Library Management System
 
-===
+## 📌 Introduction
+This is a simple book management web application built with React.
+The system allows users to manage books such as adding, editing, deleting, and viewing book information.
 
-Cách chạy tại chế độ production:
-1. clone code
-2. cài đặt thư viện: npm i
-3. Update file .env.production (nếu cần thiết)
-4. Build dự án: npm run build
-5. Chạy dự án: npm run preview
+## 🚀 Features
+- Add new books
+- Edit book information
+- Delete books
+- View book list
+- Search books
+
+## 🛠 Technologies Used
+- React
+- JavaScript (ES6+)
+- CSS
+
+## 📦 Installation
+
+Clone the repository:
+
+git clone https://github.com/your-username/Project-Book.git
+
+Go to project folder:
+
+cd Project-Book
+
+Install dependencies:
+
+npm install
+
+Start the project:
+
+npm run dev
+
+## 📷 Screenshot
+
+
+## 👤 Author
+Anh Duc Mai
+
+
+- GitHub: https://github.com/anhduc-developer
+- Email: tomorrowduc@gmail.com
