@@ -20,7 +20,7 @@ The system allows users to manage books such as adding, editing, deleting, and v
 
 Clone the repository:
 
-git clone https://github.com/your-username/Project-Book.git
+git clone https://github.com/anhduc-developer/Book-Manager-React-Vite
 
 Go to project folder:
 
@@ -39,7 +39,7 @@ npm run dev
 
 ## 👤 Author
 Anh Duc Mai
-
+![alt text](image.png)
 
 - GitHub: https://github.com/anhduc-developer
 - Email: tomorrowduc@gmail.com
