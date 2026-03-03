@@ -34,9 +34,6 @@ Start the project:
 
 npm run dev
 
-## 📷 Screenshot
-
-
 ## 👤 Author
 Anh Duc Mai
 ![alt text](image.png)
