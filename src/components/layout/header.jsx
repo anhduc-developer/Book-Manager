@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import { Menu } from "antd";
-import { BookOutlined, HomeOutlined, UserOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import {
+  BookOutlined,
+  HomeOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Children, useState } from "react";
+import { DownOutlined } from "@ant-design/icons";
+import { Dropdown, Space } from "antd";
 const Header = () => {
   const [current, setCurrent] = useState("");
   const onClick = (e) => {
@@ -23,6 +30,18 @@ const Header = () => {
       label: <Link to="/books">Books</Link>,
       key: "books",
       icon: <BookOutlined />,
+    },
+    {
+      label: "TÀI KHOẢN",
+      key: "account",
+      icon: <SettingOutlined />,
+      children: [
+        { key: "login", label: <Link to="/login">ĐĂNG NHẬP</Link> },
+        {
+          key: "register",
+          label: <Link to="/register">Đăng Ký Tài Khoản</Link>,
+        },
+      ],
     },
   ];
 

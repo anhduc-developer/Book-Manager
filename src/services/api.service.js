@@ -9,8 +9,8 @@ const createUserAPI = (fullName, email, password, phone) => {
   };
   return axios.post(URL_BACKEND, data);
 };
-const fetchAllUserAPI = () => {
-  const URL_BACKEND = "/api/v1/user";
+const fetchAllUserAPI = (current, pageSize) => {
+  const URL_BACKEND = `/api/v1/user?current=${current}&pageSize=${pageSize}`;
   return axios.get(URL_BACKEND);
 };
 const updateUserAPI = (_id, fullName, phone, avatar) => {
@@ -39,10 +39,21 @@ const handleUploadFile = (file, folder) => {
   bodyFormData.append("fileImg", file);
   return axios.post(URL_BACKEND, bodyFormData, config);
 };
+const registerUserAPI = (fullName, email, password, phone) => {
+  const data = {
+    fullName: fullName,
+    email: email,
+    password: password,
+    phone: password,
+  };
+  const URL_BACKEND = `/api/v1/user/register`;
+  return axios.post(URL_BACKEND, data);
+};
 export {
   createUserAPI,
   updateUserAPI,
   fetchAllUserAPI,
   deleteUserAPI,
   handleUploadFile,
+  registerUserAPI,
 };

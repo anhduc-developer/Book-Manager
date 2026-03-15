@@ -1,16 +1,20 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { notification, Popconfirm, Table } from "antd";
 import UpdateUserModal from "./update.user.modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserDetail from "./view.user.detail";
 import { deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
-  const { data, loadUsers } = props;
+  const { data, loadUsers, current, setCurrent, pageSize, setPageSize, total } =
+    props;
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [dataUpdate, setDataUpdate] = useState(null);
   const [dataDetail, setDataDetail] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+  useEffect(() => {
+    loadUsers();
+  }, [current, pageSize]);
   const handleDeleteUser = async (id) => {
     const res = await deleteUserAPI(id);
     if (res.data) {
@@ -27,6 +31,16 @@ const UserTable = (props) => {
     }
   };
   const columns = [
+    {
+      title: "STT",
+      render: (_, record, index) => {
+        return (
+          <div style={{ marginLeft: "15px" }}>
+            {(current - 1) * pageSize + index + 1}
+          </div>
+        );
+      },
+    },
     {
       title: "Id",
       dataIndex: "_id",
@@ -80,9 +94,44 @@ const UserTable = (props) => {
     },
   ];
 
+  const onChange = (pagination, filters, sorter, extra) => {
+    //neu page thay doi => set lai page
+    //them dau + de convert kieu du lieu "5" => 5
+    if (pagination && pagination.current) {
+      if (+pagination.current != +current) {
+        setCurrent(+pagination.current);
+      }
+    }
+    //neu thay doi pageSize
+    if (pagination && pagination.pageSize) {
+      if (!pagination.pageSize != +pageSize) {
+        setPageSize(+pagination.pageSize);
+      }
+    }
+  };
+  console.log(pageSize);
   return (
     <>
-      <Table columns={columns} dataSource={data} rowKey={"_id"} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        rowKey={"_id"}
+        onChange={onChange}
+        pagination={{
+          current: current,
+          pageSize: pageSize,
+          showSizeChanger: true,
+          total: total,
+          showTotal: (total, range) => {
+            return (
+              <div>
+                {" "}
+                {range[0]}-{range[1]} trên {total} rows
+              </div>
+            );
+          },
+        }}
+      />
       <UpdateUserModal
         isModalUpdateOpen={isModalUpdateOpen}
         setIsModalUpdateOpen={setIsModalUpdateOpen}
