@@ -15,6 +15,7 @@ const CreateBookUncontrol = (props) => {
   const [form] = Form.useForm();
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [preview, setPreview] = useState();
+  const [loadingCreateBook, setLoadingCreateBook] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
   const handleOnChange = (event) => {
     if (!event.target.files || event.target.files.length === 0) {
@@ -30,6 +31,7 @@ const CreateBookUncontrol = (props) => {
     }
   };
   const handleCreateBook = async (value) => {
+    setLoadingCreateBook(true);
     const resUpload = await handleUploadFile(selectedFile, "book");
     if (resUpload.data) {
       const thumbnail = resUpload.data.fileUploaded;
@@ -56,11 +58,13 @@ const CreateBookUncontrol = (props) => {
           description: JSON.stringify(resCreateBook.message),
         });
       }
+      setLoadingCreateBook(false);
     } else {
       notification.error({
         message: "Bạn phải upload file",
         description: JSON.stringify(resUpload.message),
       });
+      setLoadingCreateBook(false);
       return;
     }
   };
@@ -190,7 +194,11 @@ const CreateBookUncontrol = (props) => {
               >
                 Cancel
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loadingCreateBook}
+              >
                 CREATE
               </Button>
             </div>

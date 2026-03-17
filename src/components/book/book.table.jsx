@@ -1,10 +1,10 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Flex, notification, Popconfirm, Space, Table, Tag } from "antd";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import BookDetail from "./view.book";
 import UpdateBookControl from "./update.book.control";
 import UpdateBookUncontrol from "./update.book.uncontrol";
-import { deleteBookAPI } from "../../services/api.service";
+import { deleteBookAPI, fetchAllBookAPI } from "../../services/api.service";
 const BookTable = (props) => {
   const {
     loadBooks,
@@ -14,6 +14,8 @@ const BookTable = (props) => {
     pageSize,
     setPageSize,
     total,
+    loadingTable,
+    setLoadingTable,
   } = props;
   const [dataDetail, setDataDetail] = useState({});
   const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -137,6 +139,7 @@ const BookTable = (props) => {
         dataSource={dataBook}
         rowKey={"_id"}
         onChange={onChange}
+        loading={loadingTable}
         pagination={{
           current: current,
           pageSize: pageSize,

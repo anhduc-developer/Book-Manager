@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import BookTable from "../components/book/book.table";
 import { fetchAllBookAPI } from "../services/api.service";
 import BookForm from "../components/book/create.book.control";
@@ -9,11 +9,13 @@ const BookPage = () => {
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [total, setTotal] = useState(1);
+  const [loadingTable, setLoadingTable] = useState(false);
   useEffect(() => {
     loadBooks();
   }, []);
 
-  const loadBooks = async () => {
+  const loadBooks = useCallback(async () => {
+    setLoadingTable(true);
     const res = await fetchAllBookAPI(current, pageSize);
     if (res.data) {
       setDataBook(res.data.result.reverse());
@@ -21,7 +23,8 @@ const BookPage = () => {
       setPageSize(res.data.meta.pageSize);
       setTotal(res.data.meta.total);
     }
-  };
+    setLoadingTable(false);
+  }, [current, pageSize]);
   return (
     <>
       <CreateBookUncontrol loadBooks={loadBooks} />
@@ -34,6 +37,8 @@ const BookPage = () => {
         total={total}
         setTotal={setTotal}
         loadBooks={loadBooks}
+        loadingTable={loadingTable}
+        setLoadingTable={setLoadingTable}
       />
     </>
   );

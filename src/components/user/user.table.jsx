@@ -93,7 +93,6 @@ const UserTable = (props) => {
       ),
     },
   ];
-  console.log(dataUpdate);
   const onChange = (pagination, filters, sorter, extra) => {
     //neu page thay doi => set lai page
     //them dau + de convert kieu du lieu "5" => 5
