@@ -9,6 +9,8 @@ import BookPage from "./pages/book";
 import "./styles/global.css";
 import TodoApp from "./components/todo/TodoApp";
 import ErrorPage from "./pages/error";
+import { AuthWrraper } from "./components/context/auth.context";
+import PrivateRoute from "./pages/private.route";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,7 +23,12 @@ const router = createBrowserRouter([
       },
       {
         path: "books",
-        element: <BookPage />,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <BookPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "users",
@@ -38,10 +45,11 @@ const router = createBrowserRouter([
     element: <RegisterPage />,
   },
 ]);
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
 
   // </React.StrictMode>,
-  <RouterProvider router={router} />,
+  <AuthWrraper>
+    <RouterProvider router={router} />
+  </AuthWrraper>,
 );

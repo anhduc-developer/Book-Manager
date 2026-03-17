@@ -1,6 +1,5 @@
 const TodoData = (props) => {
   const { todoList, handleDelete } = props;
-  console.log(todoList);
   const handleClick = (id) => {
     handleDelete(id);
   };

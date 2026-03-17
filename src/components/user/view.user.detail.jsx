@@ -17,7 +17,6 @@ const UserDetail = (props) => {
       setSelectedFile(file);
       setPreview(URL.createObjectURL(file));
     }
-    console.log(">>>>", preview);
   };
   const handleUpdateUserAvatar = async () => {
     const resUpload = await handleUploadFile(selectedFile, "avatar");

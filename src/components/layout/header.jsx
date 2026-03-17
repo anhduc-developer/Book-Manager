@@ -1,24 +1,46 @@
-import { Link } from "react-router-dom";
-import { Menu } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, message } from "antd";
 import {
+  AliwangwangOutlined,
   BookOutlined,
   HomeOutlined,
+  LoginOutlined,
   SettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Children, useState } from "react";
+import { Children, useContext, useState } from "react";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
+import { AuthContext } from "../context/auth.context";
+import { logoutAPI } from "../../services/api.service";
 const Header = () => {
   const [current, setCurrent] = useState("");
+  const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   const onClick = (e) => {
-    console.log("click ", e);
     setCurrent(e.key);
+  };
+  const handleLogout = async () => {
+    const res = await logoutAPI();
+    if (res.data) {
+      //clear data
+      localStorage.removeItem("access_token");
+      setUser({
+        email: "",
+        phone: "",
+        fullName: "",
+        role: "",
+        avatar: "",
+        id: "",
+      });
+      message.success("Logout thành công!");
+      navigate("/");
+    }
   };
   const items = [
     {
       label: <Link to="/">Home</Link>,
-      key: "mail",
+      key: "home",
       icon: <HomeOutlined />,
     },
     {
@@ -31,18 +53,30 @@ const Header = () => {
       key: "books",
       icon: <BookOutlined />,
     },
-    {
-      label: "TÀI KHOẢN",
-      key: "account",
-      icon: <SettingOutlined />,
-      children: [
-        { key: "login", label: <Link to="/login">ĐĂNG NHẬP</Link> },
-        {
-          key: "register",
-          label: <Link to="/register">Đăng Ký Tài Khoản</Link>,
-        },
-      ],
-    },
+    ...(!user.id
+      ? [
+          {
+            label: <Link to={"/login"}>Đăng nhập</Link>,
+            key: "login",
+            icon: <LoginOutlined />,
+          },
+        ]
+      : []),
+    ...(user.id
+      ? [
+          {
+            label: `Welcome ${user.fullName}`,
+            key: "setting",
+            icon: <AliwangwangOutlined />,
+            children: [
+              {
+                label: <span onClick={handleLogout}>Đăng Xuất</span>,
+                key: "logout",
+              },
+            ],
+          },
+        ]
+      : []),
   ];
 
   return (
